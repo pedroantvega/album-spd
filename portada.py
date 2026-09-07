@@ -53,13 +53,17 @@ def _registrar_fuentes():
         pdfmetrics.registerFont(TTFont(FUENTE_ANIO, os.path.join(_FONT_DIR, 'PermanentMarker.ttf')))
         pdfmetrics.registerFont(TTFont(FUENTE_TEXTO, os.path.join(_FONT_DIR, 'Kalam-Regular.ttf')))
         pdfmetrics.registerFont(TTFont(FUENTE_TEXTO_NEGRITA, os.path.join(_FONT_DIR, 'Kalam-Bold.ttf')))
+        _registrado = True
     except Exception as e:
         print(f'Aviso: no se pudieron cargar las fuentes caligráficas ({e}); '
               f'la portada usará una fuente estándar.')
         FUENTE_ANIO = 'Helvetica-Bold'
         FUENTE_TEXTO = 'Helvetica'
         FUENTE_TEXTO_NEGRITA = 'Helvetica-Bold'
-    _registrado = True
+        # No marcamos _registrado=True aquí a propósito: si el fallo fue porque
+        # los archivos de fuente aún no estaban disponibles, el siguiente intento
+        # (siguiente generación de portada) volverá a intentar cargarlos en vez
+        # de quedarse bloqueado para siempre en la fuente de reserva.
 
 
 COLOR_TEXTO = '#2b241c'
